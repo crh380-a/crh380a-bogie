@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRH380A 转向架</title>
+    <style>
+        /* ===== 所有样式都嵌在这里，不需要 style.css ===== */
+        body {
+            font-family: "微软雅黑", sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #1e3c72;
+            font-size: 24px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column; /* 手机上改为上下排列 */
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .image-area {
+            position: relative;
+            flex: 1 1 auto;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+        }
+        .image-area img {
+            width: 100%;
+            display: block;
+        }
+        .hotspot {
+            position: absolute;
+            background: rgba(0,150,255,0.2);
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .hotspot.active {
+            background: rgba(255,100,0,0.5);
+            border-color: red;
+        }
+        .info-panel {
+            flex: 1 1 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .info-panel h2 {
+            margin-top: 0;
+            color: #1e3c72;
+        }
+    </style>
+</head>
+<body>
+    <h1>CRH380A 转向架 · 七大部件</h1>
+    <div class="container">
+        <div class="image-area">
+            <img src="bogie.png" alt="转向架示意图">
+            <!-- 七个热区，这里位置你还可到手机上慢慢调 -->
+            <div class="hotspot" data-part="frame" style="top:10%; left:20%; width:30%; height:30%;"></div>
+            <div class="hotspot" data-part="wheelset" style="top:50%; left:10%; width:25%; height:25%;"></div>
+            <div class="hotspot" data-part="axlebox" style="top:40%; left:30%; width:15%; height:15%;"></div>
+            <div class="hotspot" data-part="primary" style="top:30%; left:45%; width:20%; height:20%;"></div>
+            <div class="hotspot" data-part="secondary" style="top:15%; left:40%; width:35%; height:25%;"></div>
+            <div class="hotspot" data-part="motor" style="top:55%; left:50%; width:25%; height:25%;"></div>
+            <div class="hotspot" data-part="gearbox" style="top:60%; left:25%; width:20%; height:20%;"></div>
+        </div>
+        <div class="info-panel" id="info-panel">
+            <h2>点击部件查看详情</h2>
+            <p id="detail-text">点击左侧示意图的热区查看介绍。</p>
+        </div>
+    </div>
+
+    <script>
+        // ===== 所有 JS 都嵌在这里，不需要 script.js =====
+        const partsData = {
+            frame: { title: "构架", text: "构架是转向架的骨架，H型钢板焊接结构，承担并传递车体载荷。" },
+            wheelset: { title: "轮对", text: "由空心车轴与整体碾钢车轮组成，适应300km/h以上高速运行。" },
+            axlebox: { title: "轴箱装置", text: "内置双列圆锥滚子轴承，连接轮对与构架，传递各向力。" },
+            primary: { title: "一系悬挂", text: "螺旋钢弹簧与垂向减振器，吸收来自轨道的冲击。" },
+            secondary: { title: "二系悬挂", text: "空气弹簧与抗蛇行减振器，支撑车体，提升乘坐舒适度。" },
+            motor: { title: "牵引电机", text: "三相异步电动机，全悬挂构架，提供持续牵引力。" },
+            gearbox: { title: "齿轮箱", text: "通过联轴节传递电机扭矩至轮对，密封可靠、传动高效。" }
+        };
+
+        const hotspots = document.querySelectorAll('.hotspot');
+        const infoPanel = document.getElementById('info-panel');
+        const detailText = document.getElementById('detail-text');
+
+        hotspots.forEach(h => {
+            h.addEventListener('click', function() {
+                hotspots.forEach(x => x.classList.remove('active'));
+                this.classList.add('active');
+                const data = partsData[this.getAttribute('data-part')];
+                if (data) {
+                    infoPanel.querySelector('h2').textContent = data.title;
+                    detailText.textContent = data.text;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
